@@ -10,14 +10,14 @@
 // 6. write method to solve maze
 // 7. add objects to maze
 // 8. add animation and effects to maze
-
+// 9. use visited_list[];
 
 
 /** JavaScript DFS maze-generator
  * @author	Russell Estes
  * @date	06-10-2018
  * This software is produced as open-source
- * and released under the Mozilla Public License 2.0.
+ * and released under the MIT License.
 */
  
  
@@ -26,7 +26,7 @@
 var maze_map = [];
 
 // used to track visited cells - prevents cycles
-var visited_list = [];
+var visited_list = ["0x0", "1x0", "0x1"];
 
 // Using an enum simplifies the process of randomizing/shuffling
 // directions to traverse.
@@ -64,7 +64,7 @@ function init() {
     gen_maze(rows, cols);
 
     // call function to carve maze, pass cell 0x0
-    // carve_maze("0x0");
+	carve_maze("0x0");
 
 
 
@@ -109,9 +109,12 @@ function gen_maze(rows, cols) {
             maze_map[i][j] = id_string;
         }
     }
-    // DEBUG ONLY
-    var target_cell_test = window.prompt("Enter cell (eg. '0x0')", "5x4");
-    document.getElementById(target_cell_test).innerHTML = "X";
+    
+    
+    
+    //~ // DEBUG ONLY
+    //~ var target_cell_test = window.prompt("Enter cell (eg. '0x0')", "5x4");
+    //~ document.getElementById(target_cell_test).innerHTML = "X";
 
 } // end gen_maze()
 
@@ -146,23 +149,30 @@ function carve_maze(current_cell_index) {
     // Step 2
     var directions = shuffle([DIRECTION.N, DIRECTION.S, DIRECTION.E, DIRECTION.W]);
 
-    for (var i = 0; i < directions.length; i++) {
-        if (getNeighbor(current_cell_index, direction[i]) != "-1x-1") {
-            var new_cell_index = getNeighbor(current_cell_index, direction[i]);
 
-            // remove borders between cells...
-            var current_cell = document.getElementById("current_cell_index");
-            var new_cell = document.getElementById("new_cell_index");
+/******************* resume debugging here ****************************/
+    // while (!done) {
+		for (var i = 0; i < directions.length; i++) {
+	        var new_cell_index = getNeighbor(current_cell_index, directions[i]);
 
-            // remove walls in getNeighbor ??????????????????
-        }
-
-        // make neighbor the new_cell_index;
-        // mark new_cell_index as visited
-    }
-
-    carve_maze(new_cell_index);
-
+	        if (new_cell_index != "-1x-1") {
+			// DEBUG
+			alert(new_cell_index);				
+	            // remove borders between cells...
+	            //open(current_cell_index, new_cell_index);
+	        }
+	        else {	// neighboring cell is invalid. Try next.
+				continue;
+			}
+	
+	        // make neighbor the new_cell_index;
+	        // mark new_cell_index as visited
+	    }
+	
+		// recursive call
+	    // carve_maze(new_cell_index);
+	// } // end while
+	
 } // end carve_maze
 
 
@@ -184,60 +194,115 @@ function getNeighbor(current_cell_index, direction) {
     var temp = current_cell_index.split("x");
     var row = temp[0];
     var col = temp[1];
+    
+// DEBUG
 
-    alert(temp[0] + ", " + temp[1]);
-
-
+    
 
     switch (direction) {
-        case N: // North
+        case DIRECTION.N: // North
             {
-                if (maze_map[row - 1][col] && !visited_list.includes(maze_map[row - 1][col])) {
-                    new_cell_index = maze_map[row - 1][col];
-                    return new_cell_index;
-                } else { // Northern cell is not valid
+				alert("case N");
+				if ((row-1) >= 0 && (row-1) < maze_map.length) {
+					if (col >= 0 && col < maze_map[0].length) {
+						if (!visited_list.includes(maze_map[row-1][col])) {
+		                    new_cell_index = maze_map[row-1][col];
+							// DEBUG
+							alert(new_cell_index);    
+		                    return new_cell_index;
+						} 
+						else {
+							new_cell_index = "-1x-1";
+						}
+					} 
+					else {
+						new_cell_index = "-1x-1";
+					}
+                } 
+                else { 
                     new_cell_index = "-1x-1";
                 }
                 break;
             }
-        case S: // South
+        case DIRECTION.S: // South
             {
-                if (maze_map[row + 1][col] && !visited_list.includes(maze_map[row + 1][col])) {
-                    new_cell_index = maze_map[row + 1][col];
-                    return new_cell_index;
-                } else { // Southern cell is not valid
+				alert("case S");				
+				if ((row+1) >= 0 && (row+1) < maze_map.length) {
+					if (col >= 0 && col < maze_map[0].length) {
+						if (!visited_list.includes(maze_map[row + 1][col])) {
+							new_cell_index = maze_map[row + 1][col];
+							// DEBUG
+							alert(new_cell_index);    
+							return new_cell_index;
+						} 
+						else {
+							new_cell_index = "-1x-1";
+						}
+					} 
+					else {
+						new_cell_index = "-1x-1";
+					}
+                } 
+                else { 
                     new_cell_index = "-1x-1";
                 }
                 break;
             }
-        case E: // East
+        case DIRECTION.E: // East
             {
-                if (maze_map[row][col + 1] && !visited_list.includes(maze_map[row][col + 1])) {
-                    new_cell_index = maze_map[row][col + 1];
-                    return new_cell_index;
-                } else { // Eastern cell is not valid
+				alert("case E");
+				if (row >= 0 && row < maze_map.length) {
+					if ((col+1) >= 0 && (col+1) < maze_map[0].length) {
+		                if (!visited_list.includes(maze_map[row][col+1])) {
+		                    new_cell_index = maze_map[row][col+1];
+							// DEBUG
+							alert(new_cell_index);    
+		                    return new_cell_index;
+						} 
+						else {
+							new_cell_index = "-1x-1";
+						}
+					} 
+					else {
+						new_cell_index = "-1x-1";
+					}
+                } 
+                else { 
                     new_cell_index = "-1x-1";
                 }
                 break;
             }
-        case W: // West
+        case DIRECTION.W: // West
             {
-                if (maze_map[row][col - 1] && !visited_list.includes(maze_map[row][col - 1])) {
-                    new_cell_index = maze_map[row][col - 1];
-                    return new_cell_index;
-                } else { // Western cell is not valid
+				alert("case W");
+				if (row >= 0 && row < maze_map.length) {
+					if ((col-1) >= 0 && (col-1) < maze_map[0].length) {
+		                if (!visited_list.includes(maze_map[row][col - 1])) {
+		                    new_cell_index = maze_map[row][col - 1];
+							// DEBUG
+							alert(new_cell_index);    
+		                    return new_cell_index;
+						} 
+						else {
+							new_cell_index = "-1x-1";
+						}
+					} 
+					else {
+						new_cell_index = "-1x-1";
+					}
+                } 
+                else { 
                     new_cell_index = "-1x-1";
                 }
                 break;
             }
         default: // Invalid input
             {
+				alert("case default");
                 new_cell_index = "-1x-1";
             }
             return new_cell_index;
     }
-
-    // RETURN... .WHAT?
 
 }
 
@@ -251,8 +316,13 @@ function getNeighbor(current_cell_index, direction) {
  *
  */
 
-function open(current_cell, new_cell) {
-    // do stuff...
+function open(current_cell_index, new_cell_index, direction) {
+	var current_cell = document.getElementById("current_cell_index");
+	var new_cell = document.getElementById("new_cell_index");
+	
+
+    
+    
 }
 
 
@@ -264,53 +334,30 @@ function open(current_cell, new_cell) {
 
 /** Function shuffle(directions) - shuffles an array of 4 integers
  *
- * @param	directions	Contains 4 integers representing
- * 						four possible directions on a grid
- *						in no particular order: N, S, E, and W.
- * @return	directions	An array of shuffled integer values
+ * @param	directions				Contains 4 integers representing
+ * 									four possible directions on a grid
+ *									in no particular order: N, S, E, and W.
+ * @return	directions_randomized	An array of shuffled integer values.
  * 
  */
 
 function shuffle(directions) {
-    for (var i = 3; i > 0; i--) {
-        j = Math.floor(Math.random() * (4 - 0));
-        if (j == i) continue;
-        var t = directions[j];
-        directions[j] = directions[i];
-        directions[i] = t;
-    }
-    return directions;
-} // end shuffle()
+
+var directions_randomized = [];
+var max = Math.max(...directions);
+var min = Math.min(...directions);	// what about negative values??
+
+	for (var i = 0; i < directions.length; i++) {
+		var random_int = Math.floor(Math.random() * (max - min + 1) ) + min;
+		if (directions_randomized.includes(random_int)) {
+			i--;
+		} 
+		else {
+			directions_randomized.push(random_int);
+		}
+	}
+	return directions_randomized;
+}
 
 
 
-
-/** The MIT License
-
-
-Copyright (c) 2011 Dominic Tarr
-
-
-Permission is hereby granted, free of charge,
-to any person obtaining a copy of this software and
-associated documentation files (the "Software"), to
-deal in the Software without restriction, including
-without limitation the rights to use, copy, modify,
-merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom
-the Software is furnished to do so,
-subject to the following conditions:
-
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
-ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-**/
