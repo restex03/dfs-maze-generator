@@ -17,7 +17,7 @@
  * @author	Russell Estes
  * @date	06-10-2018
  * This software is produced as open-source
- * and released under the Mozilla Public License.
+ * and released under the Mozilla Public License 2.0.
 */
  
  
