@@ -2,6 +2,9 @@
 
 
 // TODO:
+
+// priority: see line #239
+
 // 1. finish carve_maze()
 // 2. write open() method
 // 3. maze map should store bitwise value to indicate open doors
@@ -26,7 +29,7 @@
 var maze_map = [];
 
 // used to track visited cells - prevents cycles
-var visited_list = ["0x0", "1x0", "0x1"];
+var visited_list = ["-1x-1"];
 
 // Using an enum simplifies the process of randomizing/shuffling
 // directions to traverse.
@@ -63,8 +66,7 @@ function init() {
     // call function to generate maze
     gen_maze(rows, cols);
 
-    // call function to carve maze, pass cell 0x0
-	carve_maze("0x0");
+
 
 
 
@@ -116,6 +118,9 @@ function gen_maze(rows, cols) {
     //~ var target_cell_test = window.prompt("Enter cell (eg. '0x0')", "5x4");
     //~ document.getElementById(target_cell_test).innerHTML = "X";
 
+    // call function to carve maze, pass cell 0x0
+	carve_maze("0x0");
+
 } // end gen_maze()
 
 
@@ -154,10 +159,10 @@ function carve_maze(current_cell_index) {
     // while (!done) {
 		for (var i = 0; i < directions.length; i++) {
 	        var new_cell_index = getNeighbor(current_cell_index, directions[i]);
-
-	        if (new_cell_index != "-1x-1") {
 			// DEBUG
-			alert(new_cell_index);				
+			alert("getNeighbor(): " + new_cell_index);	
+	        if (new_cell_index != "-1x-1") {
+			
 	            // remove borders between cells...
 	            //open(current_cell_index, new_cell_index);
 	        }
@@ -205,7 +210,7 @@ function getNeighbor(current_cell_index, direction) {
 				alert("case N");
 				if ((row-1) >= 0 && (row-1) < maze_map.length) {
 					if (col >= 0 && col < maze_map[0].length) {
-						if (!visited_list.includes(maze_map[row-1][col])) {
+		                if (!visited_list.includes(maze_map[row-1][col])) {
 		                    new_cell_index = maze_map[row-1][col];
 							// DEBUG
 							alert(new_cell_index);    
@@ -222,22 +227,25 @@ function getNeighbor(current_cell_index, direction) {
                 else { 
                     new_cell_index = "-1x-1";
                 }
+                return new_cell_index;
                 break;
             }
         case DIRECTION.S: // South
             {
-				alert("case S");				
+				alert("case S");
 				if ((row+1) >= 0 && (row+1) < maze_map.length) {
 					if (col >= 0 && col < maze_map[0].length) {
-						if (!visited_list.includes(maze_map[row + 1][col])) {
-							new_cell_index = maze_map[row + 1][col];
+						
+						// this condition is causing the block to not execute when it should be for the first pass
+		                if (!visited_list.includes(maze_map[row+1][col])) {
+		                    new_cell_index = maze_map[row+1][col];
 							// DEBUG
 							alert(new_cell_index);    
-							return new_cell_index;
+		                    return new_cell_index;
 						} 
 						else {
 							new_cell_index = "-1x-1";
-						}
+						}visited_list
 					} 
 					else {
 						new_cell_index = "-1x-1";
@@ -246,6 +254,7 @@ function getNeighbor(current_cell_index, direction) {
                 else { 
                     new_cell_index = "-1x-1";
                 }
+                return new_cell_index;
                 break;
             }
         case DIRECTION.E: // East
@@ -270,6 +279,7 @@ function getNeighbor(current_cell_index, direction) {
                 else { 
                     new_cell_index = "-1x-1";
                 }
+                return new_cell_index;
                 break;
             }
         case DIRECTION.W: // West
@@ -277,8 +287,8 @@ function getNeighbor(current_cell_index, direction) {
 				alert("case W");
 				if (row >= 0 && row < maze_map.length) {
 					if ((col-1) >= 0 && (col-1) < maze_map[0].length) {
-		                if (!visited_list.includes(maze_map[row][col - 1])) {
-		                    new_cell_index = maze_map[row][col - 1];
+		                if (!visited_list.includes(maze_map[row][col-1])) {
+		                    new_cell_index = maze_map[row][col-1];
 							// DEBUG
 							alert(new_cell_index);    
 		                    return new_cell_index;
@@ -294,6 +304,7 @@ function getNeighbor(current_cell_index, direction) {
                 else { 
                     new_cell_index = "-1x-1";
                 }
+                return new_cell_index;                
                 break;
             }
         default: // Invalid input
