@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- reset all browser defaults -->
+	<link rel="stylesheet" href="reset.css" />
+	<!-- custom stylesheet -->
+	<link rel="stylesheet" href="mg_styles.css" />
+	<title>JavaScript DFS maze generator</title>
+</head>
+
+<body>
+	<div id="menuDiv">   
+		<div id="form_header">Maze Generator</div>
+		<div id="mainMenu">
+			<form class="">
+				<input type="number" class="rounded_form_control input_box" id="input_height" placeholder="Enter height...">
+				<input type="number" class="rounded_form_control input_box" id="input_width" placeholder="Enter width...">
+				<input type="submit" id="input_generate" class="rounded_form_control menuButton" onclick="init(); return false;" name="generate" value="Generate">
+			</form>
+		</div>
+	</div>
+	<script src="maze_gen.js"></script>
+</body>
+</html>
