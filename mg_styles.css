@@ -90,15 +90,23 @@ body {
 	padding: 0;
 }
 
-/* unneeded classes
-
-.hidden {
-	display: none;
+.openEast {
+	border-right-color: #FFFFFF;
 }
 
-.small {
-	color: #6B6B6B;
-	font-size: .6em;
+.openNorth {
+	border-top-color: #FFFFFF;
 }
 
-*/
+.openSouth {
+	border-bottom-color: #FFFFFF;
+}
+
+.openWest {
+	border-left-color: #FFFFFF;
+}
+
+
+
+
+
