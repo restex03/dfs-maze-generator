@@ -41,7 +41,7 @@ body {
 
 .menuButton {
 	border: none;
-	background-color: white;
+	background-color: #FAFCFF;
 	color: #00B9FF;
 	outline: none;
 }
@@ -50,7 +50,9 @@ body {
 
 .menuButton:hover {
 	border: 1px solid #00B9FF;
-	margin: .225em
+	margin: .225em;
+
+
 }
 
 #mainMenu {
@@ -91,22 +93,40 @@ body {
 }
 
 .openEast {
-	border-right-color: #FFFFFF;
+	border-right-color: #FAFCFF;
 }
 
 .openNorth {
-	border-top-color: #FFFFFF;
+	border-top-color: #FAFCFF;
 }
 
 .openSouth {
-	border-bottom-color: #FFFFFF;
+	border-bottom-color: #FAFCFF;
 }
 
 .openWest {
-	border-left-color: #FFFFFF;
+	border-left-color: #FAFCFF;
 }
 
+.solutionPath {
+	background-color: hotpink;
+}
 
+#solve {
+	text-align:center;
+	margin: 2em auto;
+}
 
+a:link {
+    color: #00B9FF;
+    text-decoration: none;
+}
 
+a:visited {
+    color: #00B9FF;
+}
+	
+a:hover {
+    color: hotpink;
+}
 
