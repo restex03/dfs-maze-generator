@@ -1,24 +1,23 @@
-
-
-
-// TODO:
-
-// 1. finish carve_maze()
-// 2. maze map should store bitwise value to indicate open doors
-// 3. after maze is generated, load maze_map[][] into JSON
-// 4. write method to generate maze by feeding JSON
-// 5. write method to solve maze
-// 6. add objects to maze
-// 7. add animation and effects to maze
-
-
-
 /** JavaScript DFS maze-generator
  * @author	Russell Estes
  * @date	06-10-2018
  * This software is produced as open-source
- * and released under the MIT License.
+ * and released under the Mozilla Public License (2.0).
 */
+
+
+// TODO:
+
+// 1. maze map should store bitwise value to indicate open doors
+// 2. after maze is generated, load maze_map[][] into JSON
+// 3. write method to generate maze by feeding JSON
+// 4. write method to solve maze
+// 5. add objects to maze
+// 6. add animation and effects to maze
+
+
+
+
  
  
 /** Global Variables **/
@@ -45,7 +44,9 @@ var DIRECTION = Object.freeze({
 
 
 
-
+/** Function init() 
+ * Gets user input, initializes maze_map[][], and calls gen_maze()
+ */					
 function init() {
 
     // get inputs
@@ -60,17 +61,25 @@ function init() {
         }
     }
 
-    // call function to generate maze
+    // Generate grid
     gen_maze(rows, cols);
 
-
-
+	// Carve maze through grid
+	carve_maze("0x0");
 
 
 }
 
 
-
+/** Function gen_maze(rows, cols)
+ * Generates a grid of cells which form the fundamental
+ * structure of a maze.
+ * 
+ * @param	rows	Number of rows to include in the grid.
+ * @param	cols	Number of columns to include in the grid.
+ * 
+ * 
+ */
 
 function gen_maze(rows, cols) {
     // cells are 30px each having left and right borders
@@ -108,30 +117,18 @@ function gen_maze(rows, cols) {
             maze_map[i][j] = id_string;
         }
     }
-    
-    
-
-    
-    //~ // DEBUG ONLY
-    //~ var target_cell_test = window.prompt("Enter cell (eg. '0x0')", "5x4");
-    //~ document.getElementById(target_cell_test).innerHTML = "X";
-
-
-	// DEBUG
-	refString = "0x0"; 
-	carve_maze(refString);
-	refString = "4x0"; 
-	carve_maze(refString);
-	refString = "0x4"; 
-	carve_maze(refString);
-	refString = "4x4"; 
-	carve_maze(refString);
-
 } // end gen_maze()
 
 
 
-
+/** Function carve_maze(current_cell_index)
+ * Carves a path from starting cell at 0x0 to a 
+ * random endpoint.
+ * 
+ * @param	current_cell_index	The index of the current cell
+ * 								having form '1x4' where 1 is the row
+ * 								number and 4 is the column number. 
+ */
 function carve_maze(current_cell_index) {
 
     /** Depth-first traversal
@@ -152,49 +149,34 @@ function carve_maze(current_cell_index) {
     * 	http://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking
     **/
 
-
-    // Be sure to pass direction values as DIRECTION.N/S/E/W          
-
-    // Step 1 - starting cell is passed as parameter to carve_maze
-
-    // Step 2
+	// randomize a list of four directions 
+	// TODO: At most, only three directions are possible.
     var directions = shuffle([DIRECTION.N, DIRECTION.S, DIRECTION.E, DIRECTION.W]);
-
-
-
-
-/******************* resume debugging here ****************************/
-	
-
-    // while (!done) {
+    
 		for (var i = 0; i < directions.length; i++) {
 	        var new_cell_index = getNeighbor(current_cell_index, directions[i]);
 	        if (new_cell_index != "-1x-1") {
 	            // remove borders between cells...
-	            //open(current_cell_index, new_cell_index);
+	            open(current_cell_index, new_cell_index, directions[i]);
+	            carve_maze(new_cell_index);
 	        }
 	        else {	// neighboring cell is invalid. Try next.
 				continue;
 			}
-	        // make neighbor the new_cell_index;
-	        // mark new_cell_index as visited
 	    }
-		// recursive call
-	    // carve_maze(new_cell_index);
-	// } // end while
 } // end carve_maze
 
 
 
 
-/** Function getNeighbor(current_cell_index, direction) -
- * returns maze_map[][] index of current_cell_index's <direction> neighbor,
+/** Function getNeighbor(current_cell_index, direction)
+ * Returns maze_map[][] index of current_cell_index's <direction> neighbor,
  * 
- * @param	current_cell_index	maze_map[][] index of current cell
- * @param	direction		Direction to look for neighbor.  
- * @return	new_cell_index		maze_map index value of neighboring cell
- * 					value is of form "row col" where 'row' and
- * 					'col' are integers.
+ * @param          current_cell_index	maze_map[][] index of current cell
+ * @param          direction			Direction to look for neighbor.  
+ * @return         new_cell_index		maze_map index value of neighboring cell
+ * 										value is of form "row col" where 'row' and
+ * 										'col' are integers.
  */
 
 function getNeighbor(current_cell_index, direction) {
@@ -321,46 +303,53 @@ function getNeighbor(current_cell_index, direction) {
  * Opens walls standing between two cells.
  * 
  *
- * @param	current_cell_index	starting cell
- * @param	new_cell_index		ending cell
- * @param	direction		direction from current cell to open
+ * @param	current_cell_index	index of starting cell
+ * @param	new_cell_index		index of ending cell
+ * @param	direction			direction from current cell to open
  *
  */
 
 function open(current_cell_index, new_cell_index, direction) {
-	var current_cell = document.getElementById("current_cell_index");
-	var new_cell = document.getElementById("new_cell_index");
 	
-	// add to class:
-	var d = document.getElementById("div1");
-	d.className += " otherclass";
+
+	
+	var current_cell = document.getElementById(current_cell_index);
+	var new_cell = document.getElementById(new_cell_index);
+	
+
+	
+
 
 	switch (direction) {
 		case DIRECTION.N:
 		{
-			current_cell.className += "openNorth";
-			new_cell.className += "openSouth";
+			current_cell.className += " openNorth";
+			new_cell.className += " openSouth";
+			break;
 		}
 		case DIRECTION.S:
 		{
-			current_cell.className += "openSouth";
-			new_cell.className += "openNorth";
+			current_cell.className += " openSouth";
+			new_cell.className += " openNorth";
+			break;
 		}
 		case DIRECTION.E:
 		{
-			current_cell.className += "openEast";
-			new_cell.className += "openWest";
+			current_cell.className += " openEast";
+			new_cell.className += " openWest";
+			break;
 		}
 		case DIRECTION.W:
 		{
-			current_cell.className += "openWest";
-			new_cell.className += "openEast";
+			current_cell.className += " openWest";
+			new_cell.className += " openEast";
+			break;
 		}
 	}
 
     
     
-}
+}	// end open()
 
 
 // *********************
@@ -369,11 +358,12 @@ function open(current_cell_index, new_cell_index, direction) {
 
 
 
-/** Function shuffle(directions) - shuffles an array of 4 integers
+/** Function shuffle(directions)
+ * Shuffles an array of 4 integers
  *
- * @param	directions		Contains 4 integers representing
- * 					four possible directions on a grid
- *					in no particular order: N, S, E, and W.
+ * @param	directions				Contains 4 integers representing
+ * 									four possible directions on a grid
+ *									in no particular order: N, S, E, and W.
  * @return	directions_randomized	An array of shuffled integer values.
  * 
  */
