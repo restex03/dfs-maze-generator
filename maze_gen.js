@@ -3,8 +3,6 @@
 
 // TODO:
 
-// priority: see line #239
-
 // 1. finish carve_maze()
 // 2. write open() method
 // 3. maze map should store bitwise value to indicate open doors
@@ -113,13 +111,16 @@ function gen_maze(rows, cols) {
     }
     
     
+
     
     //~ // DEBUG ONLY
     //~ var target_cell_test = window.prompt("Enter cell (eg. '0x0')", "5x4");
     //~ document.getElementById(target_cell_test).innerHTML = "X";
 
     // call function to carve maze, pass cell 0x0
-	carve_maze("0x0");
+	
+	refString = "2x2"; 
+	carve_maze(refString);
 
 } // end gen_maze()
 
@@ -155,29 +156,27 @@ function carve_maze(current_cell_index) {
     var directions = shuffle([DIRECTION.N, DIRECTION.S, DIRECTION.E, DIRECTION.W]);
 
 
+
+
 /******************* resume debugging here ****************************/
+	
+
     // while (!done) {
 		for (var i = 0; i < directions.length; i++) {
 	        var new_cell_index = getNeighbor(current_cell_index, directions[i]);
-			// DEBUG
-			alert("getNeighbor(): " + new_cell_index);	
 	        if (new_cell_index != "-1x-1") {
-			
 	            // remove borders between cells...
 	            //open(current_cell_index, new_cell_index);
 	        }
 	        else {	// neighboring cell is invalid. Try next.
 				continue;
 			}
-	
 	        // make neighbor the new_cell_index;
 	        // mark new_cell_index as visited
 	    }
-	
 		// recursive call
 	    // carve_maze(new_cell_index);
 	// } // end while
-	
 } // end carve_maze
 
 
@@ -197,23 +196,17 @@ function getNeighbor(current_cell_index, direction) {
 
     var new_cell_index;
     var temp = current_cell_index.split("x");
-    var row = temp[0];
-    var col = temp[1];
-    
-// DEBUG
-
-    
+    var row = Number(temp[0]);
+    var col = Number(temp[1]);
+   
 
     switch (direction) {
         case DIRECTION.N: // North
             {
-				alert("case N");
 				if ((row-1) >= 0 && (row-1) < maze_map.length) {
 					if (col >= 0 && col < maze_map[0].length) {
 		                if (!visited_list.includes(maze_map[row-1][col])) {
 		                    new_cell_index = maze_map[row-1][col];
-							// DEBUG
-							alert(new_cell_index);    
 		                    return new_cell_index;
 						} 
 						else {
@@ -232,15 +225,10 @@ function getNeighbor(current_cell_index, direction) {
             }
         case DIRECTION.S: // South
             {
-				alert("case S");
 				if ((row+1) >= 0 && (row+1) < maze_map.length) {
 					if (col >= 0 && col < maze_map[0].length) {
-						
-						// this condition is causing the block to not execute when it should be for the first pass
-		                if (!visited_list.includes(maze_map[row+1][col])) {
+		                if (!(visited_list.includes(maze_map[row+1][col]))) {
 		                    new_cell_index = maze_map[row+1][col];
-							// DEBUG
-							alert(new_cell_index);    
 		                    return new_cell_index;
 						} 
 						else {
@@ -259,13 +247,10 @@ function getNeighbor(current_cell_index, direction) {
             }
         case DIRECTION.E: // East
             {
-				alert("case E");
 				if (row >= 0 && row < maze_map.length) {
 					if ((col+1) >= 0 && (col+1) < maze_map[0].length) {
 		                if (!visited_list.includes(maze_map[row][col+1])) {
 		                    new_cell_index = maze_map[row][col+1];
-							// DEBUG
-							alert(new_cell_index);    
 		                    return new_cell_index;
 						} 
 						else {
@@ -284,13 +269,10 @@ function getNeighbor(current_cell_index, direction) {
             }
         case DIRECTION.W: // West
             {
-				alert("case W");
 				if (row >= 0 && row < maze_map.length) {
 					if ((col-1) >= 0 && (col-1) < maze_map[0].length) {
 		                if (!visited_list.includes(maze_map[row][col-1])) {
 		                    new_cell_index = maze_map[row][col-1];
-							// DEBUG
-							alert(new_cell_index);    
 		                    return new_cell_index;
 						} 
 						else {
@@ -309,7 +291,6 @@ function getNeighbor(current_cell_index, direction) {
             }
         default: // Invalid input
             {
-				alert("case default");
                 new_cell_index = "-1x-1";
             }
             return new_cell_index;
