@@ -25,7 +25,7 @@
 var maze_map = [];
 
 // used to track visited cells - prevents cycles
-var visited_list = ["-1x-1"];
+var visited_list = ["0x0"];
 
 // Using an enum simplifies the process of randomizing/shuffling
 // directions to traverse.
