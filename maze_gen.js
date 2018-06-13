@@ -4,13 +4,12 @@
 // TODO:
 
 // 1. finish carve_maze()
-// 2. write open() method
-// 3. maze map should store bitwise value to indicate open doors
-// 4. after maze is generated, load maze_map[][] into JSON
-// 5. write method to generate maze by feeding JSON
-// 6. write method to solve maze
-// 7. add objects to maze
-// 8. add animation and effects to maze
+// 2. maze map should store bitwise value to indicate open doors
+// 3. after maze is generated, load maze_map[][] into JSON
+// 4. write method to generate maze by feeding JSON
+// 5. write method to solve maze
+// 6. add objects to maze
+// 7. add animation and effects to maze
 
 
 
@@ -118,9 +117,14 @@ function gen_maze(rows, cols) {
     //~ document.getElementById(target_cell_test).innerHTML = "X";
 
 
-
-    // call function to carve maze, pass cell 0x0
-	refString = "2x2"; 
+	// DEBUG
+	refString = "0x0"; 
+	carve_maze(refString);
+	refString = "4x0"; 
+	carve_maze(refString);
+	refString = "0x4"; 
+	carve_maze(refString);
+	refString = "4x4"; 
 	carve_maze(refString);
 
 } // end gen_maze()
@@ -186,11 +190,11 @@ function carve_maze(current_cell_index) {
 /** Function getNeighbor(current_cell_index, direction) -
  * returns maze_map[][] index of current_cell_index's <direction> neighbor,
  * 
- * @param          current_cell_index	maze_map[][] index of current cell
- * @param          direction			Direction to look for neighbor.  
- * @return          new_cell_index		maze_map index value of neighboring cell
- * 										value is of form "row col" where 'row' and
- * 										'col' are integers.
+ * @param	current_cell_index	maze_map[][] index of current cell
+ * @param	direction		Direction to look for neighbor.  
+ * @return	new_cell_index		maze_map index value of neighboring cell
+ * 					value is of form "row col" where 'row' and
+ * 					'col' are integers.
  */
 
 function getNeighbor(current_cell_index, direction) {
@@ -200,7 +204,8 @@ function getNeighbor(current_cell_index, direction) {
     var row = Number(temp[0]);
     var col = Number(temp[1]);
    
-
+	//~ // DEBUG
+	//~ alert("row: " + row + ", col: " + col);
     switch (direction) {
         case DIRECTION.N: // North
             {
@@ -209,6 +214,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!visited_list.includes(maze_map[row-1][col])) {
 		                    new_cell_index = maze_map[row-1][col];
 		                    visited_list.push(new_cell_index);
+		                    //~ // DEBUG
+							//~ alert("(North) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -232,6 +239,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!(visited_list.includes(maze_map[row+1][col]))) {
 		                    new_cell_index = maze_map[row+1][col];
 							visited_list.push(new_cell_index);
+							//~ // DEBUG
+							//~ alert("(South) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -255,6 +264,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!visited_list.includes(maze_map[row][col+1])) {
 		                    new_cell_index = maze_map[row][col+1];
 		                    visited_list.push(new_cell_index);
+		                    //~ // DEBUG
+							//~ alert("(East) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -278,6 +289,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!visited_list.includes(maze_map[row][col-1])) {
 		                    new_cell_index = maze_map[row][col-1];
 		                    visited_list.push(new_cell_index);
+		                    //~ // DEBUG
+							//~ alert("(West) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -304,12 +317,13 @@ function getNeighbor(current_cell_index, direction) {
 }
 
 
-/** Function open(current_cell_index, new_cell_index)
+/** Function open(current_cell_index, new_cell_index, direction)
  * Opens walls standing between two cells.
  * 
  *
  * @param	current_cell_index	starting cell
  * @param	new_cell_index		ending cell
+ * @param	direction		direction from current cell to open
  *
  */
 
@@ -317,6 +331,32 @@ function open(current_cell_index, new_cell_index, direction) {
 	var current_cell = document.getElementById("current_cell_index");
 	var new_cell = document.getElementById("new_cell_index");
 	
+	// add to class:
+	var d = document.getElementById("div1");
+	d.className += " otherclass";
+
+	switch (direction) {
+		case DIRECTION.N:
+		{
+			current_cell.className += "openNorth";
+			new_cell.className += "openSouth";
+		}
+		case DIRECTION.S:
+		{
+			current_cell.className += "openSouth";
+			new_cell.className += "openNorth";
+		}
+		case DIRECTION.E:
+		{
+			current_cell.className += "openEast";
+			new_cell.className += "openWest";
+		}
+		case DIRECTION.W:
+		{
+			current_cell.className += "openWest";
+			new_cell.className += "openEast";
+		}
+	}
 
     
     
@@ -331,9 +371,9 @@ function open(current_cell_index, new_cell_index, direction) {
 
 /** Function shuffle(directions) - shuffles an array of 4 integers
  *
- * @param	directions				Contains 4 integers representing
- * 									four possible directions on a grid
- *									in no particular order: N, S, E, and W.
+ * @param	directions		Contains 4 integers representing
+ * 					four possible directions on a grid
+ *					in no particular order: N, S, E, and W.
  * @return	directions_randomized	An array of shuffled integer values.
  * 
  */
@@ -355,6 +395,5 @@ var min = Math.min(...directions);	// what about negative values??
 	}
 	return directions_randomized;
 }
-
 
 
