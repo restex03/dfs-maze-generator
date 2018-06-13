@@ -1,0 +1,33 @@
+Maze testing 
+(All tests are commented as 'DEBUG')
+-------------------------------------
+
+Preparational steps: 
+  1) Enable DEBUG tests
+  2) Refresh page
+  3) Enter height, width.
+
+
+0x0		5x5		10x10
+E: 0x1	x		x
+S: 1x0	x		x
+N: 
+W: 
+
+4x0
+E: 4x1	x		x
+S: 5x0			x
+W: 
+N: 3x0	x		x
+
+0x4
+E: 0x5			x
+S: 1x4	x		x
+N: 
+W: 0x3	x		x
+
+4x4
+S: 5x4			x
+E: 4x5			x
+W: 4x3	x		x
+N: 3x4	x		x
