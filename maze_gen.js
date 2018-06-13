@@ -68,6 +68,12 @@ function init() {
 	carve_maze("0x0");
 
 
+	//~ // DEBUG
+	//~ carve_maze("0x0");
+	//~ carve_maze("4x0");
+	//~ carve_maze("0x4");
+	//~ carve_maze("4x4");
+
 }
 
 
@@ -126,8 +132,8 @@ function gen_maze(rows, cols) {
  * random endpoint.
  * 
  * @param	current_cell_index	The index of the current cell
- * 								having form '1x4' where 1 is the row
- * 								number and 4 is the column number. 
+ * 					having form '1x4' where 1 is the row
+ * 					number and 4 is the column number. 
  */
 function carve_maze(current_cell_index) {
 
@@ -173,10 +179,10 @@ function carve_maze(current_cell_index) {
  * Returns maze_map[][] index of current_cell_index's <direction> neighbor,
  * 
  * @param          current_cell_index	maze_map[][] index of current cell
- * @param          direction			Direction to look for neighbor.  
- * @return         new_cell_index		maze_map index value of neighboring cell
- * 										value is of form "row col" where 'row' and
- * 										'col' are integers.
+ * @param          direction		Direction to look for neighbor.  
+ * @return         new_cell_index	maze_map index of neighboring cell
+ * 					value is of form "row col" where 'row' and
+ * 					'col' are integers.
  */
 
 function getNeighbor(current_cell_index, direction) {
@@ -196,8 +202,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!visited_list.includes(maze_map[row-1][col])) {
 		                    new_cell_index = maze_map[row-1][col];
 		                    visited_list.push(new_cell_index);
-		                    //~ // DEBUG
-							//~ alert("(North) new_cell_index: " + new_cell_index);
+		                    	//~ // DEBUG
+					//~ alert("(North) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -246,8 +252,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!visited_list.includes(maze_map[row][col+1])) {
 		                    new_cell_index = maze_map[row][col+1];
 		                    visited_list.push(new_cell_index);
-		                    //~ // DEBUG
-							//~ alert("(East) new_cell_index: " + new_cell_index);
+		                    	//~ // DEBUG
+					//~ alert("(East) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -271,8 +277,8 @@ function getNeighbor(current_cell_index, direction) {
 		                if (!visited_list.includes(maze_map[row][col-1])) {
 		                    new_cell_index = maze_map[row][col-1];
 		                    visited_list.push(new_cell_index);
-		                    //~ // DEBUG
-							//~ alert("(West) new_cell_index: " + new_cell_index);
+		                    	//~ // DEBUG
+					//~ alert("(West) new_cell_index: " + new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -305,7 +311,7 @@ function getNeighbor(current_cell_index, direction) {
  *
  * @param	current_cell_index	index of starting cell
  * @param	new_cell_index		index of ending cell
- * @param	direction			direction from current cell to open
+ * @param	direction		direction from current cell to open
  *
  */
 
@@ -361,9 +367,9 @@ function open(current_cell_index, new_cell_index, direction) {
 /** Function shuffle(directions)
  * Shuffles an array of 4 integers
  *
- * @param	directions				Contains 4 integers representing
- * 									four possible directions on a grid
- *									in no particular order: N, S, E, and W.
+ * @param	directions		Contains 4 integers representing
+ * 					four possible directions on a grid
+ *					in no particular order: N, S, E, and W.
  * @return	directions_randomized	An array of shuffled integer values.
  * 
  */
