@@ -11,7 +11,7 @@
 // 6. write method to solve maze
 // 7. add objects to maze
 // 8. add animation and effects to maze
-// 9. use visited_list[];
+
 
 
 /** JavaScript DFS maze-generator
@@ -117,8 +117,9 @@ function gen_maze(rows, cols) {
     //~ var target_cell_test = window.prompt("Enter cell (eg. '0x0')", "5x4");
     //~ document.getElementById(target_cell_test).innerHTML = "X";
 
+
+
     // call function to carve maze, pass cell 0x0
-	
 	refString = "2x2"; 
 	carve_maze(refString);
 
@@ -207,6 +208,7 @@ function getNeighbor(current_cell_index, direction) {
 					if (col >= 0 && col < maze_map[0].length) {
 		                if (!visited_list.includes(maze_map[row-1][col])) {
 		                    new_cell_index = maze_map[row-1][col];
+		                    visited_list.push(new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -229,6 +231,7 @@ function getNeighbor(current_cell_index, direction) {
 					if (col >= 0 && col < maze_map[0].length) {
 		                if (!(visited_list.includes(maze_map[row+1][col]))) {
 		                    new_cell_index = maze_map[row+1][col];
+							visited_list.push(new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -251,6 +254,7 @@ function getNeighbor(current_cell_index, direction) {
 					if ((col+1) >= 0 && (col+1) < maze_map[0].length) {
 		                if (!visited_list.includes(maze_map[row][col+1])) {
 		                    new_cell_index = maze_map[row][col+1];
+		                    visited_list.push(new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
@@ -273,6 +277,7 @@ function getNeighbor(current_cell_index, direction) {
 					if ((col-1) >= 0 && (col-1) < maze_map[0].length) {
 		                if (!visited_list.includes(maze_map[row][col-1])) {
 		                    new_cell_index = maze_map[row][col-1];
+		                    visited_list.push(new_cell_index);
 		                    return new_cell_index;
 						} 
 						else {
