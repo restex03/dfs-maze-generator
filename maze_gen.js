@@ -13,6 +13,7 @@
 // 2a.	Pass word (4-letter?) as seed value to shuffle so mazes can be regenerated
 // 2b. 	After maze is generated, load maze_index[][] into JSON
 // 3b. 	Write method to generate maze by feeding JSON
+// 4. 	Convert app to Node.js and make maze objects to be copied into memory
 // 5. 	Add objects to maze
 // 6. 	Add animation and effects to maze
 
@@ -26,6 +27,10 @@
 // Index of cell ID's
 // Made two-dimensional in init()
 var maze_index = [];
+
+// Number of rows and columns contained in the maze
+var rows;
+var cols;
 
 // Stores bitwise values for each cell indicating open doors
 // Made two-dimensional in init()
@@ -45,15 +50,14 @@ var DIRECTION = Object.freeze({
 });
 
 
-
-/** Function init() 
+/** Function gen_init() 
  * Gets user input, initializes maze_index[][], and calls gen_maze()
  */					
 function init() {
 
     // get inputs
-    var rows = document.getElementById("input_height").value;
-    var cols = document.getElementById("input_width").value;
+    rows = document.getElementById("input_height").value;
+    cols = document.getElementById("input_width").value;
 
     // initialize maze map
     for (var i = 0; i < rows; i++) {
@@ -178,8 +182,12 @@ function carve_maze(current_cell_index) {
  * @param          current_cell_index	maze_index[][] index of current cell
  * @param          direction		Direction to look for neighbor.  
  * @return         new_cell_index	maze_index index of neighboring cell
- * 					value is of form "row col" where 'row' and
- * 					'col' are integers.
+ *									value is of form "row col" where 'row' and
+ *									'col' are integers. Value is '-1x-1' if new
+ * 									cell has already been visited, or cell does
+ * 									not exist within the maze (out of bounds).
+ * 									
+ * 									
  */
 
 function getNeighbor(current_cell_index, direction) {
@@ -367,51 +375,62 @@ function open(current_cell_index, new_cell_index, direction) {
 }	// end open()
 
 
-function solve_maze() {
-
-	// color current cell since its part of path
-	document.getElementById(current_cell_index).style.backgroundColor = "hotpink"
-			
-	var temp = current_cell_index.split("x");
-    var cc_row = Number(temp[0]);
-    var cc_col = Number(temp[1]);
-	
-    
-/** solve maze algorithm (pseudo-code) 
-
-function solve_maze() {
-	// where to declare solved?
-	if (solved) {
-		return;
-	}
-	else if (current_cell_index == "ROWSxCOLS") {
-		solved = true;
-		return;
-	}
-
-	else {
-		switch(condition) {
-			case 1:	//	north open
-		
-				solve_maze(getNeighbor(current_cell_index, north);
-		
-			case 2:	//	south open
-			
-				solve_maze(getNeighbor(current_cell_index, south);
-			
-			case 3:	//	east open
-			
-				solve_maze(getNeighbor(current_cell_index, east);
-			
-			case 4:	//	west open
-			
-				solve_maze(getNeighbor(current_cell_index, west);
-		}
-	}
+/** Function solve_init()
+ * This function resets the visited list, and passes the starting
+ * cell to solve_maze. */
+function solve_init() {
+	visited_list = [];	//	reset visited_list to be used with solve_maze
+	solve_maze("0x0");
 }
- 
-**/
 
+/** Function solve_maze(current_call_index)
+ * Finds a solution path through the maze from the starting cell 
+ * at 0x0 (top-left) to the ending cell (bottom-right).
+ * 
+ * @param	current_cell_index	Used to access the current position as 
+ * 								the maze is traversed. Acceptable values are
+ * 								strings of the form '1x4' where 1 is the row
+ * 								and 4 is the column.
+ */
+function solve_maze(current_cell_index) {
+	
+	if (current_cell_index == "-1x-1") {
+		return;
+	}
+		
+	// Add current cell to visited list
+	visited_list.push(current_cell_index);
+
+	var temp = current_cell_index.split("x");
+    var row = Number(temp[0]);
+    var col = Number(temp[1]);
+
+		
+		if (maze_map[row][col] & 1) {	//	north open
+			if (!visited_list.includes(maze_index[rows-1][cols-1])) {
+				solve_maze(getNeighbor(current_cell_index, DIRECTION.N));
+			}
+		}
+		if (maze_map[row][col] & 2) {	//	south open
+			if (!visited_list.includes(maze_index[rows-1][cols-1])) {
+				solve_maze(getNeighbor(current_cell_index, DIRECTION.S));
+			}
+		}
+		if (maze_map[row][col] & 4) {	//	east open
+			if (!visited_list.includes(maze_index[rows-1][cols-1])) {
+				solve_maze(getNeighbor(current_cell_index, DIRECTION.E));
+			}
+		}
+		if (maze_map[row][col] & 8) {	//	west open
+			if (!visited_list.includes(maze_index[rows-1][cols-1])) {
+				solve_maze(getNeighbor(current_cell_index, DIRECTION.W));
+			}
+		}
+
+	// once destination is reached, highlight the colors along the path moving backward
+	if (visited_list.includes(maze_index[rows-1][cols-1])) {
+		document.getElementById(current_cell_index).className += " solutionPath";
+	}
 }	// end solve_maze()
 
 
