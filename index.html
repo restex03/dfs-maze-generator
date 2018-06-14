@@ -13,13 +13,16 @@
 		<div id="form_header">Maze Generator</div>
 		<div id="mainMenu">
 			<form class="">
-				<input type="number" class="rounded_form_control input_box" id="input_height" placeholder="Enter height...">
-				<input type="number" class="rounded_form_control input_box" id="input_width" placeholder="Enter width...">
-				<input type="submit" id="input_generate" class="rounded_form_control menuButton" onclick="init(); return false;" name="generate" value="Generate">
+				<input type="number" class="rounded_input_control input_box" id="input_height" placeholder="Enter height...">
+				<input type="number" class="rounded_input_control input_box" id="input_width" placeholder="Enter width...">
+				<input type="submit" id="input_generate" class="rounded_input_control menuButton" onclick="init(); return false;" name="generate" value="Generate">
 			</form>
 		</div>
 	</div>
-	<nav id='solve'><a href='javascript:solve_maze(); void(0)'>Solve</a> | <a href='javascript:solve(); void(0)'>Keep</a></nav>
+	<nav id='nav_bar'>
+		<a id='solve' href='javascript: solve_init(); void(0)'>Solve</a> |
+		<a href='javascript: function(){}; void(0)'>Save</a>
+	</nav>
 	
 	<script src="maze_gen.js"></script>
 </body>
