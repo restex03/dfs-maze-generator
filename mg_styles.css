@@ -16,7 +16,7 @@ body {
 	border: 1px solid #00B9FF;
 }
 
-.rounded_form_control{
+.rounded_input_control{
    border: 1px solid #00B9FF;
    border-radius: 5px;
    text-align: left;
@@ -109,13 +109,15 @@ body {
 }
 
 .solutionPath {
-	background-color: hotpink;
+	background-color: #d8ecff;
+
 }
 
-#solve {
+#nav_bar {
 	text-align:center;
 	margin: 2em auto;
 }
+
 
 a:link {
     color: #00B9FF;
@@ -127,6 +129,6 @@ a:visited {
 }
 	
 a:hover {
-    color: hotpink;
+    text-decoration: underline;
 }
 
