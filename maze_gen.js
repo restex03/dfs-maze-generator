@@ -8,14 +8,13 @@
 
 // TODO:
 
-// 1. 	write method to solve maze
-// 2. 	maze map should store bitwise value to indicate open doors
-// 2a.	Pass word (4-letter?) as seed value to shuffle so mazes can be regenerated
-// 2b. 	After maze is generated, load maze_index[][] into JSON
-// 3b. 	Write method to generate maze by feeding JSON
-// 4. 	Convert app to Node.js and make maze objects to be copied into memory
-// 5. 	Add objects to maze
-// 6. 	Add animation and effects to maze
+// 1a.	Pass word (4-letter?) as seed value to shuffle so mazes can be regenerated
+// 2a. 	After maze is generated, load maze_index[][] into JSON
+// 2b. 	Write method to generate maze by feeding JSON
+// 3. 	Convert app to Node.js and make maze objects to be copied into memory
+// 4. 	Add objects to maze
+// 5. 	Add animation and effects to maze
+
 
 
 
