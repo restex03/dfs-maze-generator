@@ -36,7 +36,7 @@ var cols;
 var maze_map = [];
 
 // Used by carve_maze and solve_maze to track visited cells
-var visited_list = ["0x0"];
+var visited_list = [];
 
 // Using an enum simplifies the process of randomizing/shuffling
 // directions to traverse.
@@ -53,6 +53,11 @@ var DIRECTION = Object.freeze({
  * Gets user input, initializes maze_index[][], and calls gen_maze()
  */					
 function init() {
+
+	// (re)initialize variables
+	visited_list = ["0x0"];
+	maze_map = [];
+	maze_index = [];
 
     // get inputs
     rows = document.getElementById("input_height").value;
@@ -168,7 +173,7 @@ function carve_maze(current_cell_index) {
 	// randomize a list of four directions 
 	// TODO: At most, only three directions are possible.
     var directions = shuffle([DIRECTION.N, DIRECTION.S, DIRECTION.E, DIRECTION.W]);
-    
+    console.log(directions);
 		for (var i = 0; i < directions.length; i++) {
 	        var new_cell_index = getNeighbor(current_cell_index, directions[i]);
 	        if (new_cell_index != "-1x-1") {
@@ -176,7 +181,7 @@ function carve_maze(current_cell_index) {
 	            open(current_cell_index, new_cell_index, directions[i]);
 	            carve_maze(new_cell_index);
 	        }
-	        else {	// neighboring cell is invalid. Try next.
+			else {	// neighboring cell is invalid. Try next.
 				continue;
 			}
 	    }
