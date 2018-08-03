@@ -90,15 +90,25 @@ function init() {
 function gen_maze(rows, cols) {
     // cells are 30px each having left and right borders
     // of 1px each. Total maze width is then:
-    maze_width = cols * 32;
+    let maze_width = cols * 32;
+	let maze_container;
 
-    // create fill area to insert cells,
-    // then set id & class
-    var maze_container = document.createElement('div');
-    maze_container.setAttribute("id", "maze_container");
-    document.body.appendChild(maze_container);
-    document.body.replaceChild(maze_container, maze_container);
-    maze_container.style.width = maze_width + "px";
+	if (document.getElementById('maze_container') == null) {
+		// create fill area to insert cells,
+		// then set id & class
+		maze_container = document.createElement('div');
+		maze_container.setAttribute("id", "maze_container");
+		document.body.appendChild(maze_container);
+		maze_container.style.width = maze_width + "px";
+	}
+	else {
+		maze_container = document.getElementById('maze_container');
+		maze_container.innerHTML = '';
+	}
+    
+
+
+
 
     // generate grid having rows x cols
     for (var i = 0; i < rows; i++) {
@@ -467,5 +477,3 @@ var min = Math.min(...directions);	// what about negative values??
 	}
 	return directions_randomized;
 }
-
-
