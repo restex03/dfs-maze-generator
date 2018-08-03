@@ -9,8 +9,8 @@
 // TODO:
 
 // 1. 	(Save mazes to json || save generated maze html) && trigger download
-
- 
+// 2. 	Have options to generate mazes using different algorithms?
+// 3. 	Implement playback controls to guide mouse through solution path
  
 /** Global Variables **/
 
