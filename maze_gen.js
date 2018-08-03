@@ -8,16 +8,7 @@
 
 // TODO:
 
-// 1a.	Pass word (4-letter?) as seed value to shuffle so mazes can be regenerated
-// 2a. 	After maze is generated, load maze_index[][] into JSON
-// 2b. 	Write method to generate maze by feeding JSON
-// 3. 	Convert app to Node.js and make maze objects to be copied into memory
-// 4. 	Add objects to maze
-// 5. 	Add animation and effects to maze
-
-
-
-
+// 1. 	(Save mazes to json || save generated maze html) && trigger download
 
  
  
