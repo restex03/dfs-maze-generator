@@ -89,19 +89,21 @@ function gen_maze(rows, cols) {
     let maze_width = cols * 32;
 	let maze_container;
 
+	// empty container if it exists, otherwise create one
 	if (document.getElementById('maze_container') == null) {
 		// create fill area to insert cells,
 		// then set id & class
 		maze_container = document.createElement('div');
 		maze_container.setAttribute("id", "maze_container");
 		document.body.appendChild(maze_container);
-		maze_container.style.width = maze_width + "px";
 	}
 	else {
 		maze_container = document.getElementById('maze_container');
 		maze_container.innerHTML = '';
 	}
-    
+
+	// size or resize the maze container
+    maze_container.style.width = maze_width + "px";
 
 
 
